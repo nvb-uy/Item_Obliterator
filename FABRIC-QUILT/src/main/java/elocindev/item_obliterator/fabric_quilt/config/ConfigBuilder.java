@@ -13,7 +13,7 @@ public class ConfigBuilder {
     public static final Gson BUILDER = (new GsonBuilder()).setPrettyPrinting().create();
   
     public static final Path file = FabricLoader.getInstance().getConfigDir()
-    .resolve("ysns.json");
+    .resolve("item_obliterator.json");
     
     public static ConfigEntries loadConfig() {
       try {
