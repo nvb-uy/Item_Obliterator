@@ -20,7 +20,6 @@ public class ConfigBuilder {
           if (Files.notExists(file)) {
               ConfigEntries exampleConfig = new ConfigEntries();
               exampleConfig.blacklisted_items.add("any_mod:example_item");
-              exampleConfig.blacklisted_items.add("any_mod:another_example_item");
               String defaultJson = BUILDER.toJson(exampleConfig);
               Files.writeString(file, defaultJson);
           }
