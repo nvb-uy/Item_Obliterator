@@ -13,13 +13,13 @@ public class ConfigBuilder {
     public static final Gson BUILDER = (new GsonBuilder()).setPrettyPrinting().create();
   
     public static final Path file = FabricLoader.getInstance().getConfigDir()
-    .resolve("item_obliterator.json");
+    .resolve("item-obliterator.json");
     
     public static ConfigEntries loadConfig() {
       try {
           if (Files.notExists(file)) {
               ConfigEntries exampleConfig = new ConfigEntries();
-              exampleConfig.blacklisted_items.add("any_mod:example_item");
+              exampleConfig.blacklisted_items.add("examplemod:example_item");
               String defaultJson = BUILDER.toJson(exampleConfig);
               Files.writeString(file, defaultJson);
           }

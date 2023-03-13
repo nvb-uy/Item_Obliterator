@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "item_obliterator",
-  "version": "1.0.2",
+  "version": "1.1.0",
 
   "name": "Item Obliterator",
   "description": "Allows modpack devs to completely disable items.",

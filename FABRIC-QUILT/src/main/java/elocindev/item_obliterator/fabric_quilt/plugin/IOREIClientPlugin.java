@@ -20,6 +20,5 @@ public class IOREIClientPlugin implements REIClientPlugin {
                 rule.hide(entryStack);
             }
         });
-        
     }
 }
