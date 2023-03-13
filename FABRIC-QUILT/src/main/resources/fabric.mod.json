@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "elocindev.item_obliterator.fabric_quilt.ItemObliterator"
+    ],
+    "rei_client": [
+      "elocindev.item_obliterator.fabric_quilt.plugin.IOREIClientPlugin"
     ]
   },
   "mixins": [
