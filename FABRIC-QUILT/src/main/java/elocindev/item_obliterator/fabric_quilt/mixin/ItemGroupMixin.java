@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import elocindev.item_obliterator.fabric_quilt.ItemObliterator;
 
+@SuppressWarnings("rawtypes")
 @Mixin(ItemGroup.class)
 public class ItemGroupMixin {
 	
