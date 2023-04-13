@@ -28,9 +28,9 @@ public class ConfigBuilder {
                 ConfigEntries configEntries = BUILDER.fromJson(json, ConfigEntries.class);
 
                 // Prevent crashing when upgrading from old versions that didn't have the disabled_interactions stuff
-                if (configEntries.disabled_interactions == null) {
-                    configEntries.disabled_interactions = new ArrayList<>();
-                    configEntries.disabled_interactions.add("anymod:example_noninteractable_item");
+                if (configEntries.only_disable_interactions == null) {
+                    configEntries.only_disable_interactions = new ArrayList<>();
+                    configEntries.only_disable_interactions.add("anymod:example_item");
                 }
                 String updatedJson = BUILDER.toJson(configEntries);
                 Files.writeString(file, updatedJson);
