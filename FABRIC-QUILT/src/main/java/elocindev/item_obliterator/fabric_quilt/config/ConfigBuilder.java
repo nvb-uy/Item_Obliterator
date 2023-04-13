@@ -20,7 +20,11 @@ public class ConfigBuilder {
         try {
             if (Files.notExists(file)) {
                 ConfigEntries exampleConfig = new ConfigEntries();
+
                 exampleConfig.blacklisted_items.add("examplemod:example_item");
+                exampleConfig.only_disable_interactions.add("examplemod:example_item");
+                exampleConfig.only_disable_attacks.add("examplemod:example_item");
+
                 String defaultJson = BUILDER.toJson(exampleConfig);
                 Files.writeString(file, defaultJson);
             } else {
@@ -32,6 +36,12 @@ public class ConfigBuilder {
                     configEntries.only_disable_interactions = new ArrayList<>();
                     configEntries.only_disable_interactions.add("anymod:example_item");
                 }
+
+                if (configEntries.only_disable_attacks == null) {
+                    configEntries.only_disable_attacks = new ArrayList<>();
+                    configEntries.only_disable_attacks.add("anymod:example_item");
+                }
+
                 String updatedJson = BUILDER.toJson(configEntries);
                 Files.writeString(file, updatedJson);
                 return configEntries;
