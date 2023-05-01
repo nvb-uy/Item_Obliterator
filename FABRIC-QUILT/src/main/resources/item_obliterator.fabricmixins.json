@@ -7,7 +7,8 @@
     "ItemGroupMixin",
     "ItemEntityMixin",
     "VillagerTradeMixin",
-    "ServerPlayerMixin"
+    "ServerPlayerMixin",
+    "InteractionManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -34,24 +34,10 @@ public class ConfigBuilder {
                 String json = Files.readString(file);
                 ConfigEntries configEntries = BUILDER.fromJson(json, ConfigEntries.class);
 
-                if (configEntries.blacklisted_items == null) {
-                    configEntries.blacklisted_items = new ArrayList<>();
-                    configEntries.blacklisted_items.add("//Items here will be obliterated (Disappear completely)");
-                    configEntries.blacklisted_items.add("examplemod:example_item");
-                }
-
                 // Prevent crashing when upgrading from old versions that didn't have the disabled_interactions stuff
-                if (configEntries.only_disable_interactions == null) {
-                    configEntries.only_disable_interactions = new ArrayList<>();
-                    configEntries.only_disable_interactions.add("//Items here will not be able to be right-clicked (Interact)");
-                    configEntries.only_disable_interactions.add("examplemod:example_item");
-                }
-
-                if (configEntries.only_disable_attacks == null) {
-                    configEntries.only_disable_attacks = new ArrayList<>();
-                    configEntries.only_disable_attacks.add("//Items here will not be able to be used to attack");
-                    configEntries.only_disable_attacks.add("examplemod:example_item");
-                }
+                configEntries.blacklisted_items = (configEntries.blacklisted_items == null) ? new ArrayList<>() : configEntries.blacklisted_items;
+                configEntries.only_disable_interactions = (configEntries.only_disable_interactions == null) ? new ArrayList<>() : configEntries.only_disable_interactions;
+                configEntries.only_disable_attacks = (configEntries.only_disable_attacks == null) ? new ArrayList<>() : configEntries.only_disable_attacks;                
 
                 String updatedJson = BUILDER.toJson(configEntries);
                 Files.writeString(file, updatedJson);
