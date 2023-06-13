@@ -1,10 +1,10 @@
 package elocindev.item_obliterator.fabric_quilt.util;
 
 import net.minecraft.item.Item;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 
 public class Utils {
     public static String getItemId(Item item) {
-        return Registry.ITEM.getId(item).toString();
+        return Registries.ITEM.getId(item).toString();
     }  
 }

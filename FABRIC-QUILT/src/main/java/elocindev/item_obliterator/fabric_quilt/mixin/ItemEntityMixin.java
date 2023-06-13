@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import elocindev.item_obliterator.fabric_quilt.ItemObliterator;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 
 @Mixin(ItemEntity.class)
 public class ItemEntityMixin {
@@ -17,7 +17,7 @@ public class ItemEntityMixin {
     public void tick(CallbackInfo info) {
         Item item = ((ItemEntity)(Object)this).getStack().getItem();
         if (ItemObliterator.Config.blacklisted_items.contains(
-            Registry.ITEM.getId(item).toString()
+            Registries.ITEM.getId(item).toString()
         )) {
             ((ItemEntity)(Object)this).discard();
         }

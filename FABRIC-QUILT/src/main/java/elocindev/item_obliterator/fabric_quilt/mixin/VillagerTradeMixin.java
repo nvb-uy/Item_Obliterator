@@ -8,9 +8,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import elocindev.item_obliterator.fabric_quilt.ItemObliterator;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.MerchantScreenHandler;
 import net.minecraft.util.Util;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOfferList;
 
 @Mixin(MerchantScreenHandler.class)
@@ -26,7 +26,7 @@ public class VillagerTradeMixin {
                 tag -> tag.put("Recipes", new NbtList())));
 
             info.getReturnValue().forEach(offer -> {
-                if(!ItemObliterator.Config.blacklisted_items.contains(Registry.ITEM.getId(offer.getSellItem().getItem()).toString()))
+                if(!ItemObliterator.Config.blacklisted_items.contains(Registries.ITEM.getId(offer.getSellItem().getItem()).toString()))
                     Offers.add(offer);
             });
             

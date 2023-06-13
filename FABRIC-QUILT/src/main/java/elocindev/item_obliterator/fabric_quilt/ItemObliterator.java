@@ -17,8 +17,8 @@ public class ItemObliterator implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success)
-		-> Config = ConfigBuilder.loadConfig());
+		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> Config = ConfigBuilder.loadConfig());
+		Config = ConfigBuilder.loadConfig();
 		LOGGER.info("Item Obliterator Config Loaded");
 	}
 }

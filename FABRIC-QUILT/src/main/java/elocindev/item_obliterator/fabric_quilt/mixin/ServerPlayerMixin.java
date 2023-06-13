@@ -26,6 +26,7 @@ public class ServerPlayerMixin {
         
         if (ItemObliterator.Config.blacklisted_items.contains(itemid)) {
             item.setCount(0);
+            ((ServerPlayerEntity)(Object)this).sendMessageToClient(Text.of("This item is disabled."), true);
         }
         
     }
