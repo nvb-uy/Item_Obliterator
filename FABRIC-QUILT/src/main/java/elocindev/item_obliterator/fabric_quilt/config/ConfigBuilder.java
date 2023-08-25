@@ -23,6 +23,8 @@ public class ConfigBuilder {
 
                 exampleConfig.blacklisted_items.add("//Items here will be unusable completely");
                 exampleConfig.blacklisted_items.add("examplemod:example_item");
+                exampleConfig.blacklisted_items.add("//You can also use $mod$_ending to filter all blocks from a mod that end with the following text");
+                exampleConfig.blacklisted_items.add("// Example: $examplemod$_sword' will filter all swords from the examplemod (ONLY WORKS WITH ITEM BLACKLIST)");
                 exampleConfig.only_disable_interactions.add("//Items here will not be able to be right-clicked (Interact)");
                 exampleConfig.only_disable_interactions.add("examplemod:example_item");
                 exampleConfig.only_disable_attacks.add("//Items here will not be able to be used to attack");

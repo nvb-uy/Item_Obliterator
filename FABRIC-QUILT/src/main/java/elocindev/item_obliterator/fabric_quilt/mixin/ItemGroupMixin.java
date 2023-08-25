@@ -9,11 +9,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import elocindev.item_obliterator.fabric_quilt.ItemObliterator;
+import elocindev.item_obliterator.fabric_quilt.util.Utils;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemStackSet;
-import net.minecraft.registry.Registries;
 
 @Mixin(ItemGroup.class)
 public abstract class ItemGroupMixin {
@@ -22,7 +21,7 @@ public abstract class ItemGroupMixin {
 
     @Inject(method = "updateEntries", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemGroup;reloadSearchProvider()V"))
     private void updateEntriesMixin(ItemGroup.DisplayContext displayContext, CallbackInfo ci) {
-        displayStacks.removeIf(stack -> ItemObliterator.Config.blacklisted_items.contains(Registries.ITEM.getId(stack.getItem()).toString()));
-        searchTabStacks.removeIf(stack -> ItemObliterator.Config.blacklisted_items.contains(Registries.ITEM.getId(stack.getItem()).toString()));
+        displayStacks.removeIf(stack -> Utils.isDisabled(Utils.getItemId(stack.getItem())));
+        searchTabStacks.removeIf(stack -> Utils.isDisabled(Utils.getItemId(stack.getItem())));
     }
 }
