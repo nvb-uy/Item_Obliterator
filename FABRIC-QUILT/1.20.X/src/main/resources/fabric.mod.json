@@ -30,6 +30,7 @@
 
   "depends": {
     "fabricloader": ">=0.14.9",
-    "java": ">=17"
+    "java": ">=17",
+    "necronomicon": "*"
   }
 }

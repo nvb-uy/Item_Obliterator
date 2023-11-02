@@ -9,6 +9,11 @@ public class Utils {
         return Registries.ITEM.getId(item).toString();
     }  
 
+    public static boolean shouldRecipeBeDisabled(Item item) {
+        return isDisabled(getItemId(item))
+        || ItemObliterator.Config.only_disable_recipes.contains(getItemId(item));
+    }
+
     public static boolean isDisabled(String itemid) {
         for (String blacklisted_id : ItemObliterator.Config.blacklisted_items) {
             if (blacklisted_id.startsWith("//")) continue;
