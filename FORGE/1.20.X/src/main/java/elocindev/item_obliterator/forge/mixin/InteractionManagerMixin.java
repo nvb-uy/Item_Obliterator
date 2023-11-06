@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 
-@Mixin(ServerPlayerGameMode.class)
+@Mixin(value = ServerPlayerGameMode.class, priority = 10000)
 public class InteractionManagerMixin {
   
   // Cancelling interaction when it's on only_disable_interactions

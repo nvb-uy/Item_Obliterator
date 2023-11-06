@@ -15,7 +15,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackLinkedSet;
 
-@Mixin(CreativeModeTab.class)
+@Mixin(value = CreativeModeTab.class, priority = 10000)
 public abstract class ItemGroupMixin {
     @Shadow private Collection<ItemStack> displayItems = ItemStackLinkedSet.createTypeAndTagSet();
     @Shadow private Set<ItemStack> displayItemsSearchTab = ItemStackLinkedSet.createTypeAndTagSet();

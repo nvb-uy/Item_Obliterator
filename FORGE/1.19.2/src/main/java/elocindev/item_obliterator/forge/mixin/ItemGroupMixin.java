@@ -14,7 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@Mixin(CreativeModeTab.class)
+@Mixin(value = CreativeModeTab.class, priority = 10000)
 public abstract class ItemGroupMixin {
     @SuppressWarnings("rawtypes")
     @Inject(at = @At("HEAD"), method = "fillItemList(Lnet/minecraft/core/NonNullList;)V", cancellable = true)

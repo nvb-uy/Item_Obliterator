@@ -16,7 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-@Mixin(ServerPlayer.class)
+@Mixin(value = ServerPlayer.class, priority = 10000)
 public class ServerPlayerMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"), method = "doTick", locals = LocalCapture.CAPTURE_FAILHARD)
     public void playerTick(CallbackInfo info, int i) {
