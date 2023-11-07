@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "elocindev.item_obliterator.fabric_quilt.mixin",
   "compatibilityLevel": "JAVA_17",
+  "refmap": "Item_Obliterator-Fabric_Quilt-refmap.json",
   "mixins": [
     "ItemGroupMixin",
     "ItemEntityMixin",
