@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.MerchantMenu;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@Mixin(MerchantMenu.class)
+@Mixin(value = MerchantMenu.class, priority = 10000)
 public class VillagerTradeMixin {
     @Inject(at = {@At("RETURN")}, method = "getRecipes", cancellable = true)
     public void getRecipes(CallbackInfoReturnable<MerchantOffers> info) {

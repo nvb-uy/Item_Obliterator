@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 
-@Mixin(ServerPlayerGameMode.class)
+@Mixin(value = ServerPlayerGameMode.class, priority = 10000)
 public class InteractionManagerMixin {
   
   // Cancelling interaction when it's on only_disable_interactions
@@ -26,8 +26,7 @@ public class InteractionManagerMixin {
     Item item = stack.getItem();
     String itemid = Utils.getItemId(item);
 
-
-    if (ItemObliterator.Config.only_disable_interactions.contains(itemid)) {
+    if (ItemObliterator.Config.only_disable_interactions.contains(itemid) && !world.isClientSide()) {
       player.sendSystemMessage(Component.literal("This item's interactions are disabled."), true);
       ci.setReturnValue(InteractionResult.FAIL);
     }

@@ -2,10 +2,9 @@
     "required": true,
     "package": "elocindev.item_obliterator.forge.mixin",
     "compatibilityLevel": "JAVA_17",
-    "refmap": "itemobliterator_forge.refmap.json",
+    "refmap": "mixins.item_obliterator.refmap.json",
     "mixins": [
       "InteractionManagerMixin",
-      "ItemEntityMixin",
       "ItemGroupMixin",
       "ServerPlayerMixin",
       "VillagerTradeMixin",

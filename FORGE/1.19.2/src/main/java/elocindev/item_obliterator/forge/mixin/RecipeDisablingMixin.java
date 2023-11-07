@@ -16,7 +16,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-@Mixin(RecipeManager.class)
+@Mixin(value = RecipeManager.class, priority = 10000)
 public class RecipeDisablingMixin {
     @Inject(at = @At(value = "RETURN"), method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", cancellable = true)
     private <C extends Container, T extends Recipe<C>> void item_obliterator$getRecipeForRecipeType(RecipeType<T> recipe, C inventory, Level level, CallbackInfoReturnable<Optional<T>> cir) {
