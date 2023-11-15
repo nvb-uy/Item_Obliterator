@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import elocindev.item_obliterator.fabric_quilt.config.ConfigEntries;
+import elocindev.item_obliterator.fabric_quilt.plugin.FDCompatibility;
 import elocindev.necronomicon.api.config.v1.NecConfigAPI;
 
 public class ItemObliterator implements ModInitializer {
@@ -29,10 +30,11 @@ public class ItemObliterator implements ModInitializer {
 			NecConfigAPI.registerConfig(ConfigEntries.class);
 			Config = ConfigEntries.INSTANCE;
 		});
-		
+	
 		NecConfigAPI.registerConfig(ConfigEntries.class);
 		Config = ConfigEntries.INSTANCE;
 		
 		LOGGER.info("Item Obliterator Config Loaded");
+		FDCompatibility.init();
 	}
 }

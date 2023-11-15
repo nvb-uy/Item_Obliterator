@@ -11,9 +11,8 @@ import net.minecraft.item.Item;
 
 @Mixin(ItemEntity.class)
 public class ItemEntityMixin {
-
-    @Inject(at = @At("HEAD"), method = "tick")
-    public void item_obliterator$discardItemEntities(CallbackInfo info) {
+    @Inject(at = @At("HEAD"), method = "tick", cancellable = true)
+    public void discardItemEntities(CallbackInfo info) {
         Item item = ((ItemEntity)(Object)this).getStack().getItem();
         if (Utils.isDisabled(Utils.getItemId(item))) {
             ((ItemEntity)(Object)this).discard();
