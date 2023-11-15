@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import elocindev.item_obliterator.forge.ItemObliterator;
+import elocindev.item_obliterator.forge.utils.Utils;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -23,7 +23,7 @@ public class VillagerTradeMixin {
                 tag -> tag.put("Recipes", new ListTag())));
 
             info.getReturnValue().forEach(offer -> {
-                if(!ItemObliterator.Config.blacklisted_items.contains(ForgeRegistries.ITEMS.getKey(offer.getResult().getItem()).toString()))
+                if(!Utils.isDisabled(ForgeRegistries.ITEMS.getKey(offer.getResult().getItem()).toString()))
                     Offers.add(offer);
             });
             

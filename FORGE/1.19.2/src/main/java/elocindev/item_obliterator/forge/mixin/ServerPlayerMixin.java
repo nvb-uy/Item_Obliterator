@@ -24,7 +24,7 @@ public class ServerPlayerMixin {
         ItemStack item = ((ServerPlayer)(Object)this).getInventory().getItem(i);
         String itemid = Utils.getItemId(item.getItem());
         
-        if (ItemObliterator.Config.blacklisted_items.contains(itemid)) {
+        if (Utils.isDisabled(itemid)) {
             item.setCount(0);
             ((ServerPlayer)(Object)this).sendSystemMessage(Component.literal("This item is disabled."), true);
         }

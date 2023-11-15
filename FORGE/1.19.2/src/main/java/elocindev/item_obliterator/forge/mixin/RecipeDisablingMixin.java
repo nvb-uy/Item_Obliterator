@@ -27,7 +27,7 @@ public class RecipeDisablingMixin {
     @Inject(at = @At(value = "RETURN"), method = "getRecipesFor", cancellable = true)
     private <C extends Container, T extends Recipe<C>> void item_obliterator$getRecipesFor(RecipeType<T> recipe, C inventory, Level level, CallbackInfoReturnable<List<T>> cir) {
         cir.setReturnValue(cir.getReturnValue().stream()
-                .filter(entry -> Utils.shouldRecipeBeDisabled(entry.assemble(inventory).getItem()))
+                .filter(entry -> !Utils.shouldRecipeBeDisabled(entry.assemble(inventory).getItem()))
                 .collect(Collectors.toList()));
     }
 }

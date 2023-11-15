@@ -7,7 +7,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import elocindev.item_obliterator.forge.ItemObliterator;
+
+import elocindev.item_obliterator.forge.utils.Utils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -26,7 +27,7 @@ public abstract class ItemGroupMixin {
 			Item item = (Item)var2.next();
 			String itemid = ForgeRegistries.ITEMS.getKey(item).toString();
 
-			if (!(ItemObliterator.Config.blacklisted_items.contains(itemid))) {
+			if (!Utils.isDisabled(itemid)) {
 				item.fillItemCategory((CreativeModeTab)(Object)this, stacks);	
 			}
 		}
