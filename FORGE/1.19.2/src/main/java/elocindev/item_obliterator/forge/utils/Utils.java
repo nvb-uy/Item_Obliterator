@@ -20,22 +20,16 @@ public class Utils {
             
             if (blacklisted_id.equals(itemid)) return true;
 
-            if (blacklisted_id.contains("#")) {
-                String regex = blacklisted_id.replace("#", ".*");
-                if (itemid.matches(regex)) {
-                    return true;
-                }
-            }
-            //poopie unoptimized stinky regex
-
             if (blacklisted_id.startsWith("$")) {
                 String[] processed = processAllOf(blacklisted_id);
                 if (itemid.startsWith(processed[0]) && itemid.endsWith(processed[1])) {
                     return true;
-                } else if (processed[0] == "*") {
-                    if (itemid.endsWith(processed[1])) {
-                        return true;
-                    }
+                }
+            }
+
+            if (blacklisted_id.contains("*")) {
+                if (itemid.matches(blacklisted_id.replace("*", ".*"))) {
+                    return true;
                 }
             }
         }
