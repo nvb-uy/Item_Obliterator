@@ -21,13 +21,13 @@ public class RecipeDisablingMixin {
     @Inject(at = @At(value = "RETURN"), method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", cancellable = true)
     private <C extends Container, T extends Recipe<C>> void item_obliterator$getRecipeForRecipeType(RecipeType<T> recipe, C inventory, Level level, CallbackInfoReturnable<Optional<T>> cir) {
         cir.getReturnValue().ifPresent(value ->
-                cir.setReturnValue(Utils.shouldRecipeBeDisabled(value.getResultItem(null).getItem()) ? Optional.empty() : Optional.of(value)));
+                cir.setReturnValue(Utils.shouldRecipeBeDisabled(value.getResultItem(level.registryAccess()).getItem()) ? Optional.empty() : Optional.of(value)));
     }
     
     @Inject(at = @At(value = "RETURN"), method = "getRecipesFor", cancellable = true)
     private <C extends Container, T extends Recipe<C>> void item_obliterator$getRecipesFor(RecipeType<T> recipe, C inventory, Level level, CallbackInfoReturnable<List<T>> cir) {
         cir.setReturnValue(cir.getReturnValue().stream()
-                .filter(entry -> !Utils.shouldRecipeBeDisabled(entry.assemble(inventory, null).getItem()))
+                .filter(entry -> !Utils.shouldRecipeBeDisabled(entry.assemble(inventory, level.registryAccess()).getItem()))
                 .collect(Collectors.toList()));
     }
 }
