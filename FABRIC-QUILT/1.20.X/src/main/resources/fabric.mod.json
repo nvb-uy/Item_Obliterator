@@ -22,6 +22,9 @@
     ],
     "rei_client": [
       "elocindev.item_obliterator.fabric_quilt.plugin.IOREIClientPlugin"
+    ],
+    "emi": [
+      "elocindev.item_obliterator.fabric_quilt.plugin.IOEmiPlugin"
     ]
   },
   "mixins": [

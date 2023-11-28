@@ -24,10 +24,12 @@ public class Utils {
                 String[] processed = processAllOf(blacklisted_id);
                 if (itemid.startsWith(processed[0]) && itemid.endsWith(processed[1])) {
                     return true;
-                } else if (processed[0] == "*") {
-                    if (itemid.endsWith(processed[1])) {
-                        return true;
-                    }
+                }
+            }
+
+            if (blacklisted_id.contains("*")) {
+                if (itemid.matches(blacklisted_id.replace("*", ".*"))) {
+                    return true;
                 }
             }
         }
