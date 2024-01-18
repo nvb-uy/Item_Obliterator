@@ -27,7 +27,7 @@ public class ConfigEntries {
 	@Comment(" ")
 	@Comment("-----------------------------------------------------------")
 	@Comment("Do not touch this")
-	public String configVersion = "2.0.0";
+	public int configVersion = 2;
 
 	@Comment("-----------------------------------------------------------")
 
@@ -39,10 +39,14 @@ public class ConfigEntries {
 
 	@Comment("-----------------------------------------------------------")
 
-	@Comment("Add an effect to make the potion turn into a water bottle if it matches.")
-	@Comment("   Example: minecraft:water_breathing")
-	public List<String> blacklisted_potions = new ArrayList<>() {{
-		add("examplemod:example_effect");
+	@Comment("Removes an item if it contains certain nbt tag. If the whole entry (or expression) is present, the item gets removed.")
+	@Comment("	 Use with caution!")
+	@Comment("	")
+	@Comment("	 Example to disable a regeneration potion: Potion:\"minecraft:regeneration\"")
+	@Comment("	")
+	@Comment("	 You can also use regular expressions by starting the value with !")
+	public List<String> blacklisted_nbt = new ArrayList<>() {{
+		add("ExampleNbt:`ExampleValue`");
 	}};
 
 	@Comment("-----------------------------------------------------------")
@@ -75,10 +79,4 @@ public class ConfigEntries {
 	@Comment("This is a more optimized approach only if you have a lot of items blacklisted")
 	@Comment("If you have a small amount of items blacklisted, it is recommended to keep this false")
 	public boolean use_hashmap_optimizations = false;
-
-	@Comment("-----------------------------------------------------------")
-
-	@Comment("Removes the item when the itemstack is created, instead of when it's on the player's inventory")
-	@Comment("The most optimized approach and most seamless, but it might cause some side effects, so beware")
-	public boolean blacklist_on_creation = true;
 }

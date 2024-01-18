@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import elocindev.item_obliterator.fabric_quilt.util.Utils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.MerchantScreenHandler;
 import net.minecraft.util.Util;
 import net.minecraft.village.TradeOfferList;
@@ -23,7 +22,7 @@ public class VillagerTradeMixin {
                 tag -> tag.put("Recipes", new NbtList())));
 
             info.getReturnValue().forEach(offer -> {
-                if(!Utils.isDisabled(Registries.ITEM.getId(offer.getSellItem().getItem()).toString()))
+                if(!Utils.isDisabled(offer.getSellItem()))
                     Offers.add(offer);
             });
             

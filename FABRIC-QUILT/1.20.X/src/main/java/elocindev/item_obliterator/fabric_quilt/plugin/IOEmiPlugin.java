@@ -8,6 +8,6 @@ public class IOEmiPlugin implements EmiPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
-        registry.removeEmiStacks(stack -> Utils.isDisabled(stack.getId().toString()));
+        registry.removeEmiStacks(stack -> Utils.isDisabled(stack.getItemStack()));
     }
 }

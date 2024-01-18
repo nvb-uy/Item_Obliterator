@@ -21,7 +21,7 @@ public abstract class ItemGroupMixin {
 
     @Inject(method = "updateEntries", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemGroup;reloadSearchProvider()V"))
     private void item_obliterator$removeItemsfromGroups(ItemGroup.DisplayContext displayContext, CallbackInfo ci) {
-        displayStacks.removeIf(stack -> Utils.isDisabled(Utils.getItemId(stack.getItem())));
-        searchTabStacks.removeIf(stack -> Utils.isDisabled(Utils.getItemId(stack.getItem())));
+        displayStacks.removeIf(stack -> Utils.isDisabled(stack));
+        searchTabStacks.removeIf(stack -> Utils.isDisabled(stack));
     }
 }

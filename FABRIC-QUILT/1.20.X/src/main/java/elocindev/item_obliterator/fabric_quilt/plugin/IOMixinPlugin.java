@@ -18,9 +18,8 @@ public class IOMixinPlugin implements IMixinConfigPlugin  {
         NecConfigAPI.registerConfig(ConfigEntries.class);
 		ItemObliterator.Config = ConfigEntries.INSTANCE;
 
-
         if (ItemObliterator.Config.use_hashmap_optimizations)
-            ItemObliterator.reloadConfigCache();
+            ItemObliterator.reloadConfigHashsets();
     }
 
     @Override

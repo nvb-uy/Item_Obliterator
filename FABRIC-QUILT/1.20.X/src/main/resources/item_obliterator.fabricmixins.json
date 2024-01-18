@@ -9,7 +9,8 @@
     "VillagerTradeMixin",
     "ServerPlayerMixin",
     "InteractionManagerMixin",
-    "RecipeDisablingMixin"
+    "RecipeDisablingMixin",
+    "LootContainerMixin"
   ],
   "plugin": "elocindev.item_obliterator.fabric_quilt.plugin.IOMixinPlugin",
   "injectors": {

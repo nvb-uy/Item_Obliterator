@@ -7,14 +7,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import elocindev.item_obliterator.fabric_quilt.util.Utils;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 @Mixin(ItemEntity.class)
 public class ItemEntityMixin {
     @Inject(at = @At("HEAD"), method = "tick", cancellable = true)
     public void discardItemEntities(CallbackInfo info) {
-        Item item = ((ItemEntity)(Object)this).getStack().getItem();
-        if (Utils.isDisabled(Utils.getItemId(item))) {
+        ItemStack item = ((ItemEntity)(Object)this).getStack();
+        if (Utils.isDisabled(item)) {
             ((ItemEntity)(Object)this).discard();
         }
     }
