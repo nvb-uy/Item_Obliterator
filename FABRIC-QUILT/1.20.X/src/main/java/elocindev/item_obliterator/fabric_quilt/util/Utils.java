@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 
 public class Utils {
+
     public static String getItemId(Item item) {
         return Registries.ITEM.getId(item).toString();
     }  
@@ -20,34 +21,13 @@ public class Utils {
             
             if (blacklisted_id.equals(itemid)) return true;
 
-            if (blacklisted_id.startsWith("$")) {
-                String[] processed = processAllOf(blacklisted_id);
-                if (itemid.startsWith(processed[0]) && itemid.endsWith(processed[1])) {
-                    return true;
-                }
+            if (blacklisted_id.startsWith("!")) {
+                blacklisted_id = blacklisted_id.substring(1);
+
+                if (itemid.matches(blacklisted_id)) return true;
             }
         }
         
         return false;
-    }
-
-    public static String[] processAllOf(String input)  {
-        String[] result = new String[2];
-        
-        int firstIndex = input.indexOf('$');
-        int lastIndex = input.lastIndexOf('$');
-        
-        if (firstIndex != -1 && lastIndex != -1 && firstIndex < lastIndex) {
-            String modId = input.substring(firstIndex + 1, lastIndex);
-            String finalText = input.substring(lastIndex + 1);
-            
-            result[0] = modId;
-            result[1] = finalText;
-        } else {
-            result[0] = "null";
-            result[1] = input;
-        }
-        
-        return result;
     }
 }

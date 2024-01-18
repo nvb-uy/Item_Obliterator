@@ -20,15 +20,15 @@ import net.minecraft.util.Hand;
 public class ServerPlayerMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"), method = "playerTick", locals = LocalCapture.CAPTURE_FAILHARD)
     public void item_obliterator$removeItemFromInventory(CallbackInfo info, int i) {
-        
+        if (ItemObliterator.Config.blacklist_on_creation) return;
+
         ItemStack item = ((ServerPlayerEntity)(Object)this).getInventory().getStack(i);
         String itemid = Utils.getItemId(item.getItem());
         
         if (Utils.isDisabled(itemid)) {
             item.setCount(0);
-            ((ServerPlayerEntity)(Object)this).sendMessageToClient(Text.of("This item is disabled."), true);
+            ((ServerPlayerEntity)(Object)this).sendMessageToClient(Text.translatable("item_obliterator.disabled_item"), true);
         }
-        
     }
 
     // Cancelling attacks if the item is in only_disable_attacks
@@ -48,6 +48,8 @@ public class ServerPlayerMixin {
         PlayerEntity player = (PlayerEntity)(Object)this;
         Item item = player.getMainHandStack().getItem();
         String itemid = Utils.getItemId(item);
+
+        player.sendMessage(Text.literal(player.getMainHandStack().getNbt().getString("Potion")));
 
         if (ItemObliterator.Config.only_disable_attacks.contains(itemid)) {
             ci.cancel();
