@@ -35,7 +35,7 @@ public class ServerPlayerMixin {
         String itemid = Utils.getItemId(item);
 
         if (check(itemid)) {
-            player.sendMessageToClient(Text.of("This item's attacks are disabled."), true);
+            player.sendMessageToClient(Text.translatable("item_obliterator.disabled_attacks"), true);
             ci.cancel();
         }
     }
