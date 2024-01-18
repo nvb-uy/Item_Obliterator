@@ -40,7 +40,7 @@ public class ConfigEntries {
 	@Comment("-----------------------------------------------------------")
 
 	@Comment("Removes an item if it contains certain nbt tag. If the whole entry (or expression) is present, the item gets removed.")
-	@Comment("	 Use with caution!")
+	@Comment("Use with caution!")
 	@Comment("	")
 	@Comment("	 Example to disable a regeneration potion: Potion:\"minecraft:regeneration\"")
 	@Comment("	")
@@ -75,8 +75,11 @@ public class ConfigEntries {
 
 	@Comment("-----------------------------------------------------------")
 
-	@Comment("If true, the mod will use a hashmap to handle the blacklisted items")
-	@Comment("This is a more optimized approach only if you have a lot of items blacklisted")
-	@Comment("If you have a small amount of items blacklisted, it is recommended to keep this false")
+	@Comment("If true, the mod will use a hashset to handle the blacklisted items")
+	@Comment("This is a more optimized approach only if you have a lot of items blacklisted (20 or more is recommended)")
+	@Comment("If you just have a small amount of items blacklisted, keep this false")
+	@Comment(" ")
+	@Comment("[!] Enabling this will disable all regular expressions")
+	@Comment("[!] Does not apply to NBT, only item blacklist / interaction / attack")
 	public boolean use_hashmap_optimizations = false;
 }

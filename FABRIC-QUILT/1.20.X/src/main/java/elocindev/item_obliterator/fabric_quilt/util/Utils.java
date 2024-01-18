@@ -1,11 +1,9 @@
 package elocindev.item_obliterator.fabric_quilt.util;
 
 import elocindev.item_obliterator.fabric_quilt.ItemObliterator;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
 
 public class Utils {
 
@@ -19,20 +17,25 @@ public class Utils {
     }
 
     public static boolean isDisabled(String itemid) {
-        for (String blacklisted_id : ItemObliterator.Config.blacklisted_items) {
-            if (blacklisted_id == null) continue;
-
-            if (blacklisted_id.startsWith("//")) continue;
-            
-            if (blacklisted_id.equals(itemid)) return true;
-
-            if (blacklisted_id.startsWith("!")) {
-                blacklisted_id = blacklisted_id.substring(1);
-
-                if (itemid.matches(blacklisted_id)) return true;
-            }
-        }
         
+        if (!ItemObliterator.Config.use_hashmap_optimizations) {
+            for (String blacklisted_id : ItemObliterator.Config.blacklisted_items) {
+                if (blacklisted_id == null) continue;
+
+                if (blacklisted_id.startsWith("//")) continue;
+                
+                if (blacklisted_id.equals(itemid)) return true;
+
+                if (blacklisted_id.startsWith("!")) {
+                    blacklisted_id = blacklisted_id.substring(1);
+
+                    if (itemid.matches(blacklisted_id)) return true;
+                }
+            }
+        } else {
+            if (ItemObliterator.blacklisted_items.contains(itemid)) return true;
+        }
+
         return false;
     }
 
@@ -52,10 +55,6 @@ public class Utils {
 
                     if (stack.getNbt().toString().matches(blacklisted_nbt)) return true;
                 }
-            }
-
-            if (stack.getHolder() instanceof PlayerEntity player) {
-                player.sendMessage(Text.literal(stack.getNbt().toString()));
             }
         }
         
@@ -83,5 +82,22 @@ public class Utils {
         if (stack == null) return false;
 
         return isDisabledInteract(getItemId(stack.getItem()));
+    }
+
+    public static boolean isDisabledAttack(String itemid) {
+        for (String blacklisted_id : ItemObliterator.Config.only_disable_attacks) {
+            if (blacklisted_id == null) continue;
+            if (blacklisted_id.startsWith("//")) continue;
+            
+            if (blacklisted_id.equals(itemid)) return true;
+
+            if (blacklisted_id.startsWith("!")) {
+                blacklisted_id = blacklisted_id.substring(1);
+
+                if (itemid.matches(blacklisted_id)) return true;
+            }
+        }
+        
+        return false;
     }
 }

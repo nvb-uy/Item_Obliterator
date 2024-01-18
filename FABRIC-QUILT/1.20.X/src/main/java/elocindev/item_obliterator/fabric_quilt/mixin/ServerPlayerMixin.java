@@ -9,12 +9,10 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import elocindev.item_obliterator.fabric_quilt.ItemObliterator;
 import elocindev.item_obliterator.fabric_quilt.util.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerMixin {
@@ -36,19 +34,14 @@ public class ServerPlayerMixin {
         Item item = player.getMainHandStack().getItem();
         String itemid = Utils.getItemId(item);
 
-        if (ItemObliterator.Config.only_disable_attacks.contains(itemid)) {
+        if (check(itemid)) {
             player.sendMessageToClient(Text.of("This item's attacks are disabled."), true);
             ci.cancel();
         }
     }
-    @Inject(method = "swingHand", at = @At("HEAD"), cancellable = true)
-    private void item_obliterator$cancelItemSwing(Hand hand, CallbackInfo ci) {
-        PlayerEntity player = (PlayerEntity)(Object)this;
-        Item item = player.getMainHandStack().getItem();
-        String itemid = Utils.getItemId(item);
 
-        if (ItemObliterator.Config.only_disable_attacks.contains(itemid)) {
-            ci.cancel();
-        }
-    }
+    private static boolean check(String itemid) {
+		if (ItemObliterator.Config.use_hashmap_optimizations) return ItemObliterator.only_disable_attacks.contains(itemid);
+		else return Utils.isDisabledAttack(itemid);
+	}
 }

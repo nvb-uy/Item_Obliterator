@@ -4,7 +4,7 @@
   "version": "2.0.0",
 
   "name": "Item Obliterator",
-  "description": "Allows modpack devs to completely disable items.",
+  "description": "Allows modpack devs to completely disable items and other misc features.",
   "authors": [
     "ElocinDev"
   ],
@@ -34,6 +34,6 @@
   "depends": {
     "fabricloader": ">=0.14.9",
     "java": ">=17",
-    "necronomicon": "*"
+    "necronomicon": ">=1.4.1"
   }
 }
