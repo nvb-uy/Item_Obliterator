@@ -28,6 +28,10 @@ repositories {
 		name = "TerraformersMC"
 		url = "https://maven.terraformersmc.com/"
 	}
+
+	maven {
+        url = "https://api.modrinth.com/maven"
+    }
 }
 
 dependencies {
@@ -44,7 +48,7 @@ dependencies {
 
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 	
-	modImplementation "curse.maven:necronomicon-586157:${project.necronomicon_fileid}"
+	modImplementation "maven.modrinth:necronomicon:${project.necronomicon_version}-fabric"
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
