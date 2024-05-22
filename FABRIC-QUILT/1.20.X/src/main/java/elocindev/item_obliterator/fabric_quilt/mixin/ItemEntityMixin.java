@@ -8,12 +8,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import elocindev.item_obliterator.fabric_quilt.util.Utils;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 
 @Mixin(ItemEntity.class)
 public class ItemEntityMixin {
-    @Inject(at = @At("HEAD"), method = "tick", cancellable = true)
-    public void discardItemEntities(CallbackInfo info) {
+    @Inject(at = @At("TAIL"), method = "readCustomDataFromNbt", cancellable = true)
+    public void item_obliterator$discardItemEntities(NbtCompound nbt, CallbackInfo info) {
         ItemStack item = ((ItemEntity)(Object)this).getStack();
+        
         if (Utils.isDisabled(item)) {
             ((ItemEntity)(Object)this).discard();
         }

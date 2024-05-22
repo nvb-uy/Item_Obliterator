@@ -38,16 +38,13 @@ public class ConfigEntries {
 	}};
 
 	@Comment("-----------------------------------------------------------")
-
 	@Comment("Removes an item if it contains certain nbt tag. If the whole entry (or expression) is present, the item gets removed.")
-	@Comment("Use with caution!")
+	@Comment("Use with caution! This is a very expensive operation and can cause lag if you have a lot of items blacklisted.")
 	@Comment("	")
 	@Comment("	 Example to disable a regeneration potion: Potion:\"minecraft:regeneration\"")
 	@Comment("	")
 	@Comment("	 You can also use regular expressions by starting the value with !")
-	public List<String> blacklisted_nbt = new ArrayList<>() {{
-		add("ExampleNbt:`ExampleValue`");
-	}};
+	public List<String> blacklisted_nbt = new ArrayList<>() {{}};
 
 	@Comment("-----------------------------------------------------------")
 

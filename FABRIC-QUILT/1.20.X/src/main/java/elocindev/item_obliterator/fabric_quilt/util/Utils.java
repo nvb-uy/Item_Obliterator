@@ -3,10 +3,11 @@ package elocindev.item_obliterator.fabric_quilt.util;
 import elocindev.item_obliterator.fabric_quilt.ItemObliterator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 
 public class Utils {
-
     public static String getItemId(Item item) {
         return Registries.ITEM.getId(item).toString();
     }  
@@ -16,8 +17,14 @@ public class Utils {
         || ItemObliterator.Config.only_disable_recipes.contains(getItemId(item));
     }
 
+    public static boolean shouldRecipeBeDisabled(String itemid) {
+        return isDisabled(itemid)
+        || ItemObliterator.Config.only_disable_recipes.contains(itemid);
+    }
+
     public static boolean isDisabled(String itemid) {
-        
+        if (itemid.equals("minecraft:air")) return false;
+
         if (!ItemObliterator.Config.use_hashmap_optimizations) {
             for (String blacklisted_id : ItemObliterator.Config.blacklisted_items) {
                 if (blacklisted_id == null) continue;
@@ -40,20 +47,22 @@ public class Utils {
     }
 
     public static boolean isDisabled(ItemStack stack) {
-        if (stack == null) return false;
+        if (stack == null || stack.isOf(Items.AIR)) return false;
 
-        if (stack.getNbt() != null) {
+        NbtCompound nbt = stack.getNbt();
+        if (nbt != null) {
             for (String blacklisted_nbt : ItemObliterator.Config.blacklisted_nbt) {
                 if (blacklisted_nbt == null) continue;
                 if (blacklisted_nbt.startsWith("//")) continue;
 
-                if (stack.getNbt().toString().contains(blacklisted_nbt)) return true;
-                if (stack.getNbt().toString().equals(blacklisted_nbt)) return true;
+                String nbtString = nbt.toString();
+
+                if (nbtString.contains(blacklisted_nbt)) return true;
 
                 if (blacklisted_nbt.startsWith("!")) {
                     blacklisted_nbt = blacklisted_nbt.substring(1);
 
-                    if (stack.getNbt().toString().matches(blacklisted_nbt)) return true;
+                    if (nbtString.matches(blacklisted_nbt)) return true;
                 }
             }
         }
