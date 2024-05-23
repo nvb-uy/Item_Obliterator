@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import elocindev.item_obliterator.forge.ItemObliterator;
 import elocindev.item_obliterator.forge.utils.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +23,7 @@ public class ServerPlayerMixin {
         ItemStack item = ((ServerPlayer)(Object)this).getInventory().getItem(i);
         String itemid = Utils.getItemId(item.getItem());
         
-        if (ItemObliterator.Config.blacklisted_items.contains(itemid)) {
+        if (Utils.isDisabled(itemid)) {
             item.setCount(0);
             ((ServerPlayer)(Object)this).sendSystemMessage(Component.literal("This item is disabled."), true);
         }
@@ -37,7 +36,7 @@ public class ServerPlayerMixin {
         Item item = player.getMainHandItem().getItem();
         String itemid = Utils.getItemId(item);
 
-        if (ItemObliterator.Config.only_disable_attacks.contains(itemid)) {
+        if (Utils.isDisabledAttack(itemid)) {
             player.sendSystemMessage(Component.literal("This item's attacks are disabled."), true);
             ci.cancel();
         }
@@ -48,7 +47,7 @@ public class ServerPlayerMixin {
         Item item = player.getMainHandItem().getItem();
         String itemid = Utils.getItemId(item);
 
-        if (ItemObliterator.Config.only_disable_attacks.contains(itemid)) {
+        if (Utils.isDisabledAttack(itemid)) {
             ci.cancel();
         }
     }

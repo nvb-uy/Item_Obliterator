@@ -16,14 +16,24 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slf4j.Logger;
 
 @Mod(ItemObliterator.MODID)
 public class ItemObliterator {
     public static final String MODID = "item_obliterator";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static ConfigEntries Config = ConfigEntries.INSTANCE;
+
+    public static Set<String> blacklisted_items;
+	public static Set<String> blacklisted_nbt;
+	public static Set<String> only_disable_interactions;
+	public static Set<String> only_disable_attacks;
+    public static Set<String> only_disable_recipes;
 
     public ItemObliterator() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -36,6 +46,8 @@ public class ItemObliterator {
         NecConfigAPI.registerConfig(ConfigEntries.class);
         Config = ConfigEntries.INSTANCE;
         LOGGER.info("Loaded Item Obliterator Config");
+
+        ItemObliterator.reloadConfigHashsets();
     }
 
     @SubscribeEvent
@@ -52,9 +64,17 @@ public class ItemObliterator {
         if (!(event.getEntity() instanceof ItemEntity item)) return;
             
         if (!item.getItem().isEmpty()) {
-            if (Config.blacklisted_items.contains(Utils.getItemId(item.getItem().getItem()))) {                
+            if (Utils.isDisabled(item.getItem())) {                
                 item.remove(Entity.RemovalReason.DISCARDED);
             }
         }
     }
+
+    public static void reloadConfigHashsets() {
+		blacklisted_items = new HashSet<>(ItemObliterator.Config.blacklisted_items);
+		blacklisted_nbt = new HashSet<>(ItemObliterator.Config.blacklisted_nbt);
+		only_disable_interactions = new HashSet<>(ItemObliterator.Config.only_disable_interactions);
+		only_disable_attacks = new HashSet<>(ItemObliterator.Config.only_disable_attacks);
+		only_disable_recipes = new HashSet<>(ItemObliterator.Config.only_disable_recipes);
+	}
 }
