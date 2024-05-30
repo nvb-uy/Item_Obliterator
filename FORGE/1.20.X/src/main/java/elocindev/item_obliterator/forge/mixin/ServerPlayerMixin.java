@@ -19,11 +19,9 @@ import net.minecraft.world.item.ItemStack;
 public class ServerPlayerMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"), method = "doTick", locals = LocalCapture.CAPTURE_FAILHARD)
     public void playerTick(CallbackInfo info, int i) {
-        
         ItemStack item = ((ServerPlayer)(Object)this).getInventory().getItem(i);
-        String itemid = Utils.getItemId(item.getItem());
-        
-        if (Utils.isDisabled(itemid)) {
+
+        if (Utils.isDisabled(item)) {
             item.setCount(0);
             ((ServerPlayer)(Object)this).sendSystemMessage(Component.literal("This item is disabled."), true);
         }

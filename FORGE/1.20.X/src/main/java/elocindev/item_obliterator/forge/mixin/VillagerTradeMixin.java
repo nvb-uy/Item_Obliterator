@@ -5,17 +5,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import elocindev.item_obliterator.forge.ItemObliterator;
+import elocindev.item_obliterator.forge.utils.Utils;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.inventory.MerchantMenu;
 import net.minecraft.world.item.trading.MerchantOffers;
-import net.minecraftforge.registries.ForgeRegistries;
 
 @Mixin(value = MerchantMenu.class, priority = 10000)
 public class VillagerTradeMixin {
-    @Inject(at = {@At("RETURN")}, method = "getRecipes", cancellable = true)
+    @Inject(at = {@At("RETURN")}, method = "getOffers", cancellable = true)
     public void getRecipes(CallbackInfoReturnable<MerchantOffers> info) {
         if(info.getReturnValue() != null) {
             
@@ -23,7 +22,7 @@ public class VillagerTradeMixin {
                 tag -> tag.put("Recipes", new ListTag())));
 
             info.getReturnValue().forEach(offer -> {
-                if(!ItemObliterator.Config.blacklisted_items.contains(ForgeRegistries.ITEMS.getKey(offer.getResult().getItem()).toString()))
+                if(!Utils.isDisabled(offer.getResult()))
                     Offers.add(offer);
             });
             

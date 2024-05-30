@@ -1,3 +1,7 @@
+## v2.2.1
+- Added support for Farmer's Delight recipes (and other custom mod recipes that output multiple items at the same time)
+- Fixed the mod breaking all cutting board recipes
+
 ## v2.2.0
 - Performance improved on item entity banning
 - Fixed and improved recipe banning; now it should no longer break due to a mod incompatibility, and its performance was improved too.

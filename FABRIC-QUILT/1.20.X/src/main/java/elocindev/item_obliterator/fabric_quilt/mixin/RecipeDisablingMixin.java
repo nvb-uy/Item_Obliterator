@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.profiler.Profiler;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -46,22 +47,55 @@ public class RecipeDisablingMixin {
             JsonElement jsonElement = entry.getValue();
 
             try {
-                JsonElement resultElement = JsonHelper.asObject(jsonElement, "top element").get("result");
-                String itemId = null;
+                JsonObject jsonObject = JsonHelper.asObject(jsonElement, "top element");
+                JsonElement resultElement = jsonObject.get("result");
 
-                if (resultElement == null) { filteredMap.put(identifier, jsonElement); continue; }
+                if (resultElement == null) {
+                    filteredMap.put(identifier, jsonElement);
+                    continue;
+                }
+
+                boolean shouldDisable = false;
 
                 if (resultElement.isJsonObject()) {
                     JsonObject resultObject = resultElement.getAsJsonObject();
-                    itemId = JsonHelper.getString(resultObject, "item");
+                    String itemId = JsonHelper.getString(resultObject, "item");
+
+                    if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
+                        shouldDisable = true;
+                    }
                 } else if (resultElement.isJsonPrimitive() && resultElement.getAsJsonPrimitive().isString()) {
-                    itemId = resultElement.getAsString();
+                    String itemId = resultElement.getAsString();
+
+                    if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
+                        shouldDisable = true;
+                    }
+                } else if (resultElement.isJsonArray()) {
+                    JsonArray resultArray = resultElement.getAsJsonArray();
+
+                    for (JsonElement element : resultArray) {
+                        if (element.isJsonObject()) {
+                            JsonObject resultObject = element.getAsJsonObject();
+                            String itemId = JsonHelper.getString(resultObject, "item");
+
+                            if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
+                                shouldDisable = true;
+                                break;
+                            }
+                        } else if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+                            String itemId = element.getAsString();
+
+                            if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
+                                shouldDisable = true;
+                                break;
+                            }
+                        }
+                    }
                 }
 
-                if (itemId != null && !Utils.shouldRecipeBeDisabled(itemId)) {
+                if (!shouldDisable) {
                     filteredMap.put(identifier, jsonElement);
                 }
-
             } catch (IllegalArgumentException | JsonParseException e) {
                 ItemObliterator.LOGGER.debug("Parsing error loading recipe {}", identifier, e);
                 filteredMap.put(identifier, jsonElement);
