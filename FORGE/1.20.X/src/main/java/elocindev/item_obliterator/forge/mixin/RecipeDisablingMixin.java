@@ -15,6 +15,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -46,18 +47,51 @@ public class RecipeDisablingMixin {
 
             try {
                 JsonElement resultElement = GsonHelper.convertToJsonObject(jsonElement, "top element").get("result");
-                String itemId = null;
 
-                if (resultElement == null) { filteredMap.put(ResourceLocation, jsonElement); continue; }
+                if (resultElement == null) {
+                    filteredMap.put(ResourceLocation, jsonElement);
+                    continue;
+                }
+
+                boolean shouldDisable = false;
 
                 if (resultElement.isJsonObject()) {
                     JsonObject resultObject = resultElement.getAsJsonObject();
-                    itemId = GsonHelper.getAsString(resultObject, "item");
+                    String itemId = GsonHelper.getAsString(resultObject, "item");
+
+                    if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
+                        shouldDisable = true;
+                    }
                 } else if (resultElement.isJsonPrimitive() && resultElement.getAsJsonPrimitive().isString()) {
-                    itemId = resultElement.getAsString();
+                    String itemId = resultElement.getAsString();
+
+                    if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
+                        shouldDisable = true;
+                    }
+                } else if (resultElement.isJsonArray()) {
+                    JsonArray resultArray = resultElement.getAsJsonArray();
+
+                    for (JsonElement element : resultArray) {
+                        if (element.isJsonObject()) {
+                            JsonObject resultObject = element.getAsJsonObject();
+                            String itemId = GsonHelper.getAsString(resultObject, "item");
+
+                            if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
+                                shouldDisable = true;
+                                break;
+                            }
+                        } else if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+                            String itemId = element.getAsString();
+
+                            if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
+                                shouldDisable = true;
+                                break;
+                            }
+                        }
+                    }
                 }
 
-                if (itemId != null && !Utils.shouldRecipeBeDisabled(itemId)) {
+                if (!shouldDisable) {
                     filteredMap.put(ResourceLocation, jsonElement);
                 }
 
