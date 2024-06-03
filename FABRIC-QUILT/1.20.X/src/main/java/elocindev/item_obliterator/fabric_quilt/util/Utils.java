@@ -48,12 +48,17 @@ public class Utils {
     }
 
     // Emi compat stuff
-    public static boolean isDisabled(EmiStack stack) {
-        if (stack == null) return false;
+    public static boolean isDisabled(EmiStack emiStack) {
+        if (emiStack == null) return false;
+        boolean disabled = false;
         
-        if (stack.hasNbt()) return isDisabled(stack.getNbt());
+        if (emiStack.hasNbt()) disabled = isDisabled(emiStack.getNbt());
 
-        return isDisabled(stack.getKey().toString());
+        if (emiStack.getKey() instanceof Item item ) {
+            disabled = isDisabled(getItemId(item));
+        }
+
+        return disabled;
     }
 
     public static boolean isDisabled(ItemStack stack) {
