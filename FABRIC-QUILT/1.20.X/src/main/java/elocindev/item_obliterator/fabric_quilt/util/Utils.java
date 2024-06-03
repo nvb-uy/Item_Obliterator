@@ -50,16 +50,16 @@ public class Utils {
     // Emi compat stuff
     public static boolean isDisabled(EmiStack emiStack) {
         if (emiStack == null) return false;
-        boolean disabled = false;
-        
-        if (emiStack.hasNbt()) disabled = isDisabled(emiStack.getNbt());
-
-        if (emiStack.getKey() instanceof Item item ) {
-            disabled = isDisabled(getItemId(item));
+    
+        if (emiStack.hasNbt() && isDisabled(emiStack.getNbt())) return true;
+    
+        if (emiStack.getKey() instanceof Item item) {
+            return isDisabled(getItemId(item));
         }
-
-        return disabled;
+    
+        return false;
     }
+    
 
     public static boolean isDisabled(ItemStack stack) {
         if (stack == null || stack.isOf(Items.AIR)) return false;
