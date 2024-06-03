@@ -1,5 +1,6 @@
 package elocindev.item_obliterator.fabric_quilt.util;
 
+import dev.emi.emi.api.stack.EmiStack;
 import elocindev.item_obliterator.fabric_quilt.ItemObliterator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -46,28 +47,44 @@ public class Utils {
         return false;
     }
 
+    // Emi compat stuff
+    public static boolean isDisabled(EmiStack stack) {
+        if (stack == null) return false;
+        
+        if (stack.hasNbt()) return isDisabled(stack.getNbt());
+
+        return isDisabled(stack.getKey().toString());
+    }
+
     public static boolean isDisabled(ItemStack stack) {
         if (stack == null || stack.isOf(Items.AIR)) return false;
 
-        NbtCompound nbt = stack.getNbt();
-        if (nbt != null) {
-            for (String blacklisted_nbt : ItemObliterator.Config.blacklisted_nbt) {
-                if (blacklisted_nbt == null) continue;
-                if (blacklisted_nbt.startsWith("//")) continue;
-
-                String nbtString = nbt.toString();
-
-                if (nbtString.contains(blacklisted_nbt)) return true;
-
-                if (blacklisted_nbt.startsWith("!")) {
-                    blacklisted_nbt = blacklisted_nbt.substring(1);
-
-                    if (nbtString.matches(blacklisted_nbt)) return true;
-                }
-            }
+        if (stack.hasNbt()) {
+            isDisabled(stack.getNbt());
         }
         
         return isDisabled(getItemId(stack.getItem()));
+    }
+
+    public static boolean isDisabled(NbtCompound nbt) {
+        if (nbt == null) return false;
+
+        for (String blacklisted_nbt : ItemObliterator.Config.blacklisted_nbt) {
+            if (blacklisted_nbt == null) continue;
+            if (blacklisted_nbt.startsWith("//")) continue;
+
+            String nbtString = nbt.toString();
+
+            if (nbtString.contains(blacklisted_nbt)) return true;
+
+            if (blacklisted_nbt.startsWith("!")) {
+                blacklisted_nbt = blacklisted_nbt.substring(1);
+
+                if (nbtString.matches(blacklisted_nbt)) return true;
+            }
+        }
+        
+        return false;
     }
 
     public static boolean isDisabledInteract(String itemid) {

@@ -1,5 +1,6 @@
 ## v2.2.2
-- Fixed EMI 
+- Improved performance when loading the EMI plugin
+- Fixed not hiding completely in some parts of EMI (Recipe viewer, addons such as EMI Loot, etc)
 
 ## v2.2.1
 - Added support for Farmer's Delight recipes (and other custom mod recipes that output multiple items at the same time)
