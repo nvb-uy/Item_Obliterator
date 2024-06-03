@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "item_obliterator",
+  "version": "${version}",
+
+  "name": "Item Obliterator",
+  "description": "Allows modpack devs to completely disable items and other misc features.",
+  "authors": [
+    "ElocinDev"
+  ],
+  "contact": {
+    "homepage": "https://curseforge.com/members/elocindev/projects",
+    "sources": "https://github.com/nvb-uy/item_obliterator"
+  },
+
+  "license": "AGNYA License",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "elocindev.item_obliterator.fabric_quilt.ItemObliterator"
+    ],
+    "rei_client": [
+      "elocindev.item_obliterator.fabric_quilt.plugin.IOREIClientPlugin"
+    ],
+    "emi": [
+      "elocindev.item_obliterator.fabric_quilt.plugin.IOEmiPlugin"
+    ]
+  },
+  "mixins": [
+    "item_obliterator.fabricmixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "java": ">=17",
+    "necronomicon": ">=1.4.1"
+  }
+}

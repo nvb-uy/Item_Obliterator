@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "elocindev.item_obliterator.fabric_quilt.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ItemGroupMixin",
+    "ItemEntityMixin",
+    "VillagerTradeMixin",
+    "ServerPlayerMixin",
+    "InteractionManagerMixin",
+    "RecipeDisablingMixin",
+    "LootContainerMixin"
+  ],
+  "plugin": "elocindev.item_obliterator.fabric_quilt.plugin.IOMixinPlugin",
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
