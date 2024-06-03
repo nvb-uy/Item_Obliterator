@@ -15,12 +15,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@Mixin(value = CreativeModeTab.class, priority = 10000)
+@Mixin(value = CreativeModeTab.class, priority = 199)
 public abstract class ItemGroupMixin {
     @SuppressWarnings("rawtypes")
     @Inject(at = @At("HEAD"), method = "fillItemList(Lnet/minecraft/core/NonNullList;)V", cancellable = true)
 	private void appendStacks(NonNullList<ItemStack> stacks, CallbackInfo info) {
-
 		Iterator var2 = ForgeRegistries.ITEMS.iterator();
 
 		while(var2.hasNext()) {			
@@ -31,6 +30,7 @@ public abstract class ItemGroupMixin {
 				item.fillItemCategory((CreativeModeTab)(Object)this, stacks);	
 			}
 		}
+
 		info.cancel();
 	}
 }

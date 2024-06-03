@@ -6,19 +6,19 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import elocindev.item_obliterator.forge.utils.Utils;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 
 @Mixin(ItemEntity.class)
 public class ItemEntityMixin {
-    @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void tick(CallbackInfo info) {
-        ItemEntity item = (ItemEntity)(Object)this;
-
-        if (!item.getItem().isEmpty()) {
-            if (Utils.isDisabled(Utils.getItemId(item.getItem().getItem()))) {                
-                item.remove(RemovalReason.DISCARDED);
-            }
+    @Inject(at = @At("TAIL"), method = "readAdditionalSaveData", cancellable = true)
+    public void item_obliterator$discardItemEntities(CompoundTag nbt, CallbackInfo info) {
+        ItemStack item = ((ItemEntity)(Object)this).getItem();
+        
+        if (Utils.isDisabled(item)) {
+            ((ItemEntity)(Object)this).remove(RemovalReason.DISCARDED);
         }
     }
 }

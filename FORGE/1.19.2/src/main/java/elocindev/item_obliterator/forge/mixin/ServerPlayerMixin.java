@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import elocindev.item_obliterator.forge.ItemObliterator;
 import elocindev.item_obliterator.forge.utils.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,15 +15,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-@Mixin(value = ServerPlayer.class, priority = 10000)
+@Mixin(value = ServerPlayer.class, priority = 199)
 public class ServerPlayerMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"), method = "doTick", locals = LocalCapture.CAPTURE_FAILHARD)
     public void playerTick(CallbackInfo info, int i) {
-        
         ItemStack item = ((ServerPlayer)(Object)this).getInventory().getItem(i);
-        String itemid = Utils.getItemId(item.getItem());
-        
-        if (Utils.isDisabled(itemid)) {
+
+        if (Utils.isDisabled(item)) {
             item.setCount(0);
             ((ServerPlayer)(Object)this).sendSystemMessage(Component.literal("This item is disabled."), true);
         }
@@ -37,7 +34,7 @@ public class ServerPlayerMixin {
         Item item = player.getMainHandItem().getItem();
         String itemid = Utils.getItemId(item);
 
-        if (ItemObliterator.Config.only_disable_attacks.contains(itemid)) {
+        if (Utils.isDisabledAttack(itemid)) {
             player.sendSystemMessage(Component.literal("This item's attacks are disabled."), true);
             ci.cancel();
         }
@@ -48,7 +45,7 @@ public class ServerPlayerMixin {
         Item item = player.getMainHandItem().getItem();
         String itemid = Utils.getItemId(item);
 
-        if (ItemObliterator.Config.only_disable_attacks.contains(itemid)) {
+        if (Utils.isDisabledAttack(itemid)) {
             ci.cancel();
         }
     }
