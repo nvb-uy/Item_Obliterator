@@ -10,7 +10,7 @@ version = mod_version
 group = mod_group_id
 
 base {
-    archivesName = mod_id
+    archivesName = "Item-Obliterator-Forge-1.19.2"
 }
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
@@ -157,6 +157,10 @@ repositories {
         url "https://cursemaven.com" 
         content { includeGroup "curse.maven" } 
     } 
+
+    maven {
+        url "https://api.modrinth.com/maven"
+    }
 }
 
 dependencies {
@@ -168,7 +172,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation fg.deobf("curse.maven:necronomicon-586157:${necronomicon_fileid}") 
+    implementation fg.deobf("maven.modrinth:necronomicon:${project.necronomicon_version}-forge")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
