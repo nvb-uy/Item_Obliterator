@@ -1,3 +1,6 @@
+## v2.2.2
+- Fixed EMI 
+
 ## v2.2.1
 - Added support for Farmer's Delight recipes (and other custom mod recipes that output multiple items at the same time)
 - Fixed the mod breaking all cutting board recipes
