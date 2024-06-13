@@ -32,8 +32,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.9",
+    "fabricloader": ">=0.15.11",
     "java": ">=17",
+    "minecraft": ">=1.20.5",
     "necronomicon": ">=1.4.1"
   }
 }

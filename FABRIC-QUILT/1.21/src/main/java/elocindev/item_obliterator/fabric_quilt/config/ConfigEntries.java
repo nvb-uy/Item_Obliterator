@@ -27,7 +27,7 @@ public class ConfigEntries {
 	@Comment(" ")
 	@Comment("-----------------------------------------------------------")
 	@Comment("Do not touch this")
-	public int configVersion = 2;
+	public int configVersion = 3;
 
 	@Comment("-----------------------------------------------------------")
 
@@ -38,13 +38,21 @@ public class ConfigEntries {
 	}};
 
 	@Comment("-----------------------------------------------------------")
-	@Comment("Removes an item if it contains certain nbt tag. If the whole entry (or expression) is present, the item gets removed.")
+	@Comment("Removes an item if it contains certain Component Data. If the whole entry (or expression) is present, the item gets removed.")
 	@Comment("Use with caution! This is a very expensive operation and can cause lag if you have a lot of items blacklisted.")
 	@Comment("	")
 	@Comment("	 Example to disable a regeneration potion: Potion:\"minecraft:regeneration\"")
 	@Comment("	")
 	@Comment("	 You can also use regular expressions by starting the value with !")
-	public List<String> blacklisted_nbt = new ArrayList<>() {{}};
+	public List<String> blacklisted_component_data = new ArrayList<>() {{}};
+
+	@Comment("-----------------------------------------------------------")
+
+	@Comment("If true, the mod will log all components of your main hand item every second.")
+	@Comment("This is useful for finding the specific component data of an item to blacklist it.")
+	@Comment(" ")
+	@Comment("Only enable it if you need it, as this is only meant to be used for debugging.")
+	public boolean debug_print_components = false;
 
 	@Comment("-----------------------------------------------------------")
 

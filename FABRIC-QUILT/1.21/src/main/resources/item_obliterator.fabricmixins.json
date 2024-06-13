@@ -12,6 +12,9 @@
     "RecipeDisablingMixin",
     "LootContainerMixin"
   ],
+  "client": [
+    "ClientPlayerMixin"
+  ],
   "plugin": "elocindev.item_obliterator.fabric_quilt.plugin.IOMixinPlugin",
   "injectors": {
     "defaultRequire": 1

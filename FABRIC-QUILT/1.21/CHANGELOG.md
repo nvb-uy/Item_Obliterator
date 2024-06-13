@@ -1,3 +1,10 @@
+## v3.0.0
+- Initial port to Minecraft 1.21
+- NBT banning has been removed, and replaced with Component banning
+- Added "print_components" config, a debug config that prints the components from the item in your main hand every second. Useful for people wanting to do specific component banning
+- Added support for regex in only_disable_recipes
+- Added new logo on CurseForge and Modrinth
+
 ## v2.2.2
 - Improved performance when loading the EMI plugin
 - Fixed not hiding completely in some parts of EMI (Recipe viewer, addons such as EMI Loot, etc)
