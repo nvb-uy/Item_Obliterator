@@ -1,4 +1,4 @@
-## v3.1.0
+## v3.1.1
 - Improved compatibility with custom recipes from other mods, such as Mine Cells
 
 ## v3.0.0
