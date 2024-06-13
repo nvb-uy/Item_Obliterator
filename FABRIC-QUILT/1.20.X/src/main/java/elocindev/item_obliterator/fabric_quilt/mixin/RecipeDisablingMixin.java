@@ -41,50 +41,43 @@ public class RecipeDisablingMixin {
     @Inject(at = @At("HEAD"), method = "apply", cancellable = true)
     private void item_obliterator$apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo ci) {
         Map<Identifier, JsonElement> filteredMap = new HashMap<>();
-
+    
         for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
             Identifier identifier = entry.getKey();
             JsonElement jsonElement = entry.getValue();
-
+    
             try {
                 JsonObject jsonObject = JsonHelper.asObject(jsonElement, "top element");
                 JsonElement resultElement = jsonObject.get("result");
-
+    
                 if (resultElement == null) {
                     filteredMap.put(identifier, jsonElement);
                     continue;
                 }
-
+    
                 boolean shouldDisable = false;
-
+    
                 if (resultElement.isJsonObject()) {
-                    JsonObject resultObject = resultElement.getAsJsonObject();
-                    String itemId = JsonHelper.getString(resultObject, "item");
-
+                    String itemId = getResultItemId(resultElement.getAsJsonObject());
                     if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
                         shouldDisable = true;
                     }
                 } else if (resultElement.isJsonPrimitive() && resultElement.getAsJsonPrimitive().isString()) {
                     String itemId = resultElement.getAsString();
-
                     if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
                         shouldDisable = true;
                     }
                 } else if (resultElement.isJsonArray()) {
                     JsonArray resultArray = resultElement.getAsJsonArray();
-
                     for (JsonElement element : resultArray) {
                         if (element.isJsonObject()) {
-                            JsonObject resultObject = element.getAsJsonObject();
-                            String itemId = JsonHelper.getString(resultObject, "item");
-
+                            String itemId = getResultItemId(element.getAsJsonObject());
                             if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
                                 shouldDisable = true;
                                 break;
                             }
                         } else if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
                             String itemId = element.getAsString();
-
                             if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
                                 shouldDisable = true;
                                 break;
@@ -92,7 +85,7 @@ public class RecipeDisablingMixin {
                         }
                     }
                 }
-
+    
                 if (!shouldDisable) {
                     filteredMap.put(identifier, jsonElement);
                 }
@@ -101,8 +94,22 @@ public class RecipeDisablingMixin {
                 filteredMap.put(identifier, jsonElement);
             }
         }
-
+    
         map.clear();
         map.putAll(filteredMap);
+    }
+    
+    private String getResultItemId(JsonObject resultObject) {
+        if (resultObject.has("item")) {
+            return JsonHelper.getString(resultObject, "item");
+        } else if (resultObject.has("id")) {
+            return JsonHelper.getString(resultObject, "id");
+        } else if (resultObject.has("result")) {
+            return JsonHelper.getString(resultObject, "result");
+        } else if (resultObject.has("output")) {
+            return JsonHelper.getString(resultObject, "output");
+        }
+        
+        return null;
     }
 }

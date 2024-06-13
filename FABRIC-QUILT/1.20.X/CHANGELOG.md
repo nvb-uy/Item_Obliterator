@@ -1,3 +1,7 @@
+## v2.3.0
+- Improved compatibility with custom recipes from other mods, such as Mine Cells [Backport from 1.21]
+- Fixed regex not working in recipe disabling [Backport from 1.21]
+
 ## v2.2.2
 - Improved performance when loading the EMI plugin
 - Fixed not hiding completely in some parts of EMI (Recipe viewer, addons such as EMI Loot, etc)
