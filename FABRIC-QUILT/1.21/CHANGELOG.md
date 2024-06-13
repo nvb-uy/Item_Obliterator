@@ -1,3 +1,6 @@
+## v3.1.0
+- Improved compatibility with custom recipes from other mods, such as Mine Cells
+
 ## v3.0.0
 - Initial port to Minecraft 1.21
 - NBT banning has been removed, and replaced with Component banning

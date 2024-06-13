@@ -113,6 +113,8 @@ public class RecipeDisablingMixin {
             return JsonHelper.getString(resultObject, "id");
         } else if (resultObject.has("result")) {
             return JsonHelper.getString(resultObject, "result");
+        } else if (resultObject.has("output")) {
+            return JsonHelper.getString(resultObject, "output");
         }
         
         return null;
