@@ -46,18 +46,22 @@ public class RecipeDisablingMixin {
             JsonElement jsonElement = entry.getValue();
 
             try {
-                JsonElement resultElement = GsonHelper.convertToJsonObject(jsonElement, "top element").get("result");
+                JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "top element");
+                JsonElement resultElement = jsonObject.get("result");
 
                 if (resultElement == null) {
-                    filteredMap.put(ResourceLocation, jsonElement);
-                    continue;
+                    if (jsonObject.get("output") != null) {
+                        resultElement = jsonObject.get("output");
+                    } else {
+                        filteredMap.put(ResourceLocation, jsonElement);
+                        continue;
+                    }
                 }
 
                 boolean shouldDisable = false;
 
                 if (resultElement.isJsonObject()) {
-                    JsonObject resultObject = resultElement.getAsJsonObject();
-                    String itemId = GsonHelper.getAsString(resultObject, "item");
+                    String itemId = getResultItemId(resultElement.getAsJsonObject());
 
                     if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
                         shouldDisable = true;
@@ -73,8 +77,7 @@ public class RecipeDisablingMixin {
 
                     for (JsonElement element : resultArray) {
                         if (element.isJsonObject()) {
-                            JsonObject resultObject = element.getAsJsonObject();
-                            String itemId = GsonHelper.getAsString(resultObject, "item");
+                            String itemId = getResultItemId(element.getAsJsonObject());
 
                             if (itemId != null && Utils.shouldRecipeBeDisabled(itemId)) {
                                 shouldDisable = true;
@@ -103,5 +106,19 @@ public class RecipeDisablingMixin {
 
         map.clear();
         map.putAll(filteredMap);
+    }
+
+    private String getResultItemId(JsonObject resultObject) {
+        if (resultObject.has("item")) {
+            return GsonHelper.getAsString(resultObject, "item");
+        } else if (resultObject.has("id")) {
+            return GsonHelper.getAsString(resultObject, "id");
+        } else if (resultObject.has("result")) {
+            return GsonHelper.getAsString(resultObject, "result");
+        } else if (resultObject.has("output")) {
+            return GsonHelper.getAsString(resultObject, "output");
+        }
+        
+        return null;
     }
 }

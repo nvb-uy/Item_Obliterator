@@ -13,13 +13,30 @@ public class Utils {
     }
 
     public static boolean shouldRecipeBeDisabled(Item item) {
-        return isDisabled(getItemId(item))
-        || ItemObliterator.Config.only_disable_recipes.contains(getItemId(item));
+        return shouldRecipeBeDisabled(getItemId(item));
     }
 
     public static boolean shouldRecipeBeDisabled(String itemid) {
-        return isDisabled(itemid)
-        || ItemObliterator.Config.only_disable_recipes.contains(itemid);
+        if (isDisabled(itemid)) return true;
+
+        if (!ItemObliterator.Config.use_hashmap_optimizations) {
+            for (String blacklisted_id : ItemObliterator.Config.only_disable_recipes) {
+                if (blacklisted_id == null) continue;
+                if (blacklisted_id.startsWith("//")) continue;
+                
+                if (blacklisted_id.equals(itemid)) return true;
+
+                if (blacklisted_id.startsWith("!")) {
+                    blacklisted_id = blacklisted_id.substring(1);
+
+                    if (itemid.matches(blacklisted_id)) return true;
+                }
+            }
+        } else {
+            if (ItemObliterator.only_disable_recipes.contains(itemid)) return true;
+        }
+
+        return false;
     }
 
     public static boolean isDisabled(String itemid) {
