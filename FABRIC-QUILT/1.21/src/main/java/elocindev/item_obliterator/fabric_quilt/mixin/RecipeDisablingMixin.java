@@ -51,8 +51,12 @@ public class RecipeDisablingMixin {
                 JsonElement resultElement = jsonObject.get("result");
     
                 if (resultElement == null) {
-                    filteredMap.put(identifier, jsonElement);
-                    continue;
+                    if (jsonObject.get("output") != null) {
+                        resultElement = jsonObject.get("output");
+                    } else {
+                        filteredMap.put(identifier, jsonElement);
+                        continue;
+                    }
                 }
     
                 boolean shouldDisable = false;
