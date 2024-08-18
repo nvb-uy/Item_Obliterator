@@ -63,6 +63,10 @@ minecraft {
     // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
+
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
@@ -156,7 +160,14 @@ repositories {
     maven { 
         url "https://cursemaven.com" 
         content { includeGroup "curse.maven" } 
-    } 
+    }
+
+    repositories {
+        maven {
+            name = "TerraformersMC"
+            url = "https://maven.terraformersmc.com/"
+        }
+    }
 }
 
 dependencies {
@@ -168,7 +179,11 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation fg.deobf("curse.maven:necronomicon-586157:${necronomicon_fileid}") 
+    implementation fg.deobf("curse.maven:necronomicon-586157:${necronomicon_fileid}")
+
+    compileOnly fg.deobf("dev.emi:emi-forge:${emi_version}:api")
+    // runtimeOnly fg.deobf("dev.emi:emi-forge:${emi_version}")
+
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
