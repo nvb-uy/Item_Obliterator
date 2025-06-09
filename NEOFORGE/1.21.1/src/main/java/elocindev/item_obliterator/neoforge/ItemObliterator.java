@@ -9,12 +9,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 
-import net.neoforged.api.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.bus.api.EventBus; // 🔄 NeoForge’s eventbus
+import net.neoforged.neoforge.event.lifecycle.FMLCommonSetupEvent;
+
+import net.neoforged.bus.api.EventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
-import net.neoforged.neoforge.common.NeoForge; // 🔄 Replaces MinecraftForge
 
 import org.slf4j.Logger;
 

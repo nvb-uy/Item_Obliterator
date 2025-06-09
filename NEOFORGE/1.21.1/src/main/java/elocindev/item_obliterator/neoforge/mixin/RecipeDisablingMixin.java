@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import elocindev.item_obliterator.forge.ItemObliterator;
-import elocindev.item_obliterator.forge.utils.Utils;
+import elocindev.item_obliterator.neoforge.ItemObliterator;
+import elocindev.item_obliterator.neoforge.utils.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;

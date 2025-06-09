@@ -17,9 +17,18 @@ import net.minecraft.world.item.ItemStack;
 
 @Mixin(value = ServerPlayer.class, priority = 10000)
 public class ServerPlayerMixin {
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"), method = "doTick", locals = LocalCapture.CAPTURE_FAILHARD)
+
+    @Inject(
+            method = "doTick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"
+            ),
+            locals = LocalCapture.CAPTURE_FAILHARD
+    )
     public void playerTick(CallbackInfo info, int i) {
         ItemStack item = ((ServerPlayer)(Object)this).getInventory().getItem(i);
+        if (item == null || item.isEmpty()) return;
 
         if (Utils.isDisabled(item)) {
             item.setCount(0);
@@ -27,7 +36,6 @@ public class ServerPlayerMixin {
         }
     }
 
-    // Cancelling attacks if the item is in only_disable_attacks
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     private void onCancelItemUse(Entity target, CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer)(Object)this;
@@ -39,6 +47,7 @@ public class ServerPlayerMixin {
             ci.cancel();
         }
     }
+
     @Inject(method = "swing", at = @At("HEAD"), cancellable = true)
     private void cancelSwing(InteractionHand hand, CallbackInfo ci) {
         Player player = (Player)(Object)this;

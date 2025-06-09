@@ -1,0 +1,16 @@
+{
+    "required": true,
+    "package": "elocindev.item_obliterator.neoforge.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+      "InteractionManagerMixin",
+      "ItemGroupMixin",
+      "ServerPlayerMixin",
+      "VillagerTradeMixin",
+      "RecipeDisablingMixin",
+      "ItemEntityMixin"
+    ],
+    "client": [
+    ],
+    "minVersion": "0.8"
+}
