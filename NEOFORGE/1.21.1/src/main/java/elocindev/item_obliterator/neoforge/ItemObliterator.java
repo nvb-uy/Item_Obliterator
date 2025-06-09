@@ -1,7 +1,7 @@
 package elocindev.item_obliterator.neoforge;
 
 import com.mojang.logging.LogUtils;
-import elocindev.item_obliterator.neoforge.config.ConfigEntries; // 🔄 Changed to neoforge package
+import elocindev.item_obliterator.neoforge.config.ConfigEntries;
 import elocindev.item_obliterator.neoforge.utils.Utils;
 import elocindev.necronomicon.api.config.v1.NecConfigAPI;
 
@@ -9,14 +9,31 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 
-import net.neoforged.neoforge.event.lifecycle.FMLCommonSetupEvent;
-
-import net.neoforged.bus.api.EventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.bus.api.SubscribeEvent;
 
 import org.slf4j.Logger;
+
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.block.Blocks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+
+import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,23 +52,22 @@ public class ItemObliterator {
     public static Set<String> only_disable_recipes;
 
     public ItemObliterator() {
-        // NeoForge auto-registers @SubscribeEvent handlers on this class via mod constructor
-        EventBus modBus = net.neoforged.fml.ModLoadingContext.get().getModEventBus();
-        modBus.addListener(this::commonSetup);
+        // Register mod lifecycle setup
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
 
-        NeoForge.EVENT_BUS.register(this); // Replaces MinecraftForge.EVENT_BUS
+        // Register gameplay events
+        NeoForge.EVENT_BUS.register(this);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         NecConfigAPI.registerConfig(ConfigEntries.class);
         Config = ConfigEntries.INSTANCE;
-        LOGGER.info("Loaded Item Obliterator Config");
-
-        ItemObliterator.reloadConfigHashsets();
+        LOGGER.info("Loaded Item Obliterator config.");
+        reloadConfigHashsets();
     }
 
-    @net.neoforged.bus.api.SubscribeEvent
-    public void removeFromInventory(PlayerContainerEvent event) {
+    @SubscribeEvent
+    public void onPlayerContainer(PlayerContainerEvent event) {
         for (ItemStack item : event.getContainer().getItems()) {
             if (Config.blacklisted_items.contains(Utils.getItemId(item.getItem()))) {
                 item.setCount(0);
@@ -59,14 +75,12 @@ public class ItemObliterator {
         }
     }
 
-    @net.neoforged.bus.api.SubscribeEvent
-    public void removeFromWorld(EntityJoinLevelEvent event) {
+    @SubscribeEvent
+    public void onEntityJoinLevel(EntityJoinLevelEvent event) {
         if (!(event.getEntity() instanceof ItemEntity item)) return;
 
-        if (!item.getItem().isEmpty()) {
-            if (Utils.isDisabled(item.getItem())) {
-                item.remove(Entity.RemovalReason.DISCARDED);
-            }
+        if (!item.getItem().isEmpty() && Utils.isDisabled(item.getItem())) {
+            item.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
