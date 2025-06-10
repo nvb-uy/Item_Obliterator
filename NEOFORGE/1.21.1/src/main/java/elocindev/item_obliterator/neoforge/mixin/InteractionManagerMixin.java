@@ -22,7 +22,7 @@ public class InteractionManagerMixin {
   @Inject(method = "useItem", at = @At("HEAD"), cancellable = true)
   private void cancelInteraction(ServerPlayer player, Level world, ItemStack stack, InteractionHand hand, CallbackInfoReturnable<InteractionResult> ci) {
     if (Utils.isDisabledInteract(stack)) {
-      player.sendSystemMessage(Component.literal("This item's interactions are disabled."), true);
+      player.sendSystemMessage(Component.literal("this item's interaction has been disabled"), true);
       ci.setReturnValue(InteractionResult.FAIL);
     }
   }

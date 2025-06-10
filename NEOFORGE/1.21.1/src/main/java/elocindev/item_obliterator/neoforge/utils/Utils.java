@@ -1,15 +1,17 @@
 package elocindev.item_obliterator.neoforge.utils;
 
 import elocindev.item_obliterator.neoforge.ItemObliterator;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class Utils {
+
     public static String getItemId(Item item) {
-        return ForgeRegistries.ITEMS.getKey(item).toString();
+        // BuiltinRegistries.ITEM is deprecated in newer versions, but still works for now. Will update later
+        return BuiltInRegistries.ITEM.getKey(item).toString();
     }
 
     public static boolean shouldRecipeBeDisabled(Item item) {

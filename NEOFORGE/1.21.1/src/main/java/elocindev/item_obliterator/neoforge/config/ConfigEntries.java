@@ -7,7 +7,6 @@ import elocindev.necronomicon.api.config.v1.NecConfigAPI;
 import elocindev.necronomicon.config.Comment;
 import elocindev.necronomicon.config.NecConfig;
 
-
 public class ConfigEntries {
 	@NecConfig
 	public static ConfigEntries INSTANCE;

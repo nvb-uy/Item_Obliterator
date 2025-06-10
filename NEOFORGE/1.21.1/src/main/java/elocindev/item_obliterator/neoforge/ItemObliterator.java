@@ -1,42 +1,26 @@
 package elocindev.item_obliterator.neoforge;
 
 import com.mojang.logging.LogUtils;
+
 import elocindev.item_obliterator.neoforge.config.ConfigEntries;
 import elocindev.item_obliterator.neoforge.utils.Utils;
 import elocindev.necronomicon.api.config.v1.NecConfigAPI;
-
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.bus.api.SubscribeEvent;
-
-import org.slf4j.Logger;
-
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.level.block.Blocks;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import org.slf4j.Logger;
 
 @Mod(ItemObliterator.MODID)
 public class ItemObliterator {
@@ -51,19 +35,22 @@ public class ItemObliterator {
     public static Set<String> only_disable_attacks;
     public static Set<String> only_disable_recipes;
 
-    public ItemObliterator() {
-        // Register mod lifecycle setup
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
+    public ItemObliterator(IEventBus modEventBus, ModContainer modContainer) {
+        modEventBus.addListener(this::commonSetup);
 
-        // Register gameplay events
         NeoForge.EVENT_BUS.register(this);
+
+        //modContainer.registerConfig(ModConfig.Type.COMMON, elocindev.item_obliterator.neoforge.config.ConfigHandler.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        NecConfigAPI.registerConfig(ConfigEntries.class);
-        Config = ConfigEntries.INSTANCE;
-        LOGGER.info("Loaded Item Obliterator config.");
-        reloadConfigHashsets();
+        event.enqueueWork(() -> {
+            NecConfigAPI.registerConfig(ConfigEntries.class);
+            Config = ConfigEntries.INSTANCE;
+            LOGGER.info("Loaded NeoForge Item Obliterator config.");
+
+            ItemObliterator.reloadConfigHashsets();
+        });
     }
 
     @SubscribeEvent
@@ -85,10 +72,10 @@ public class ItemObliterator {
     }
 
     public static void reloadConfigHashsets() {
-        blacklisted_items = new HashSet<>(Config.blacklisted_items);
-        blacklisted_nbt = new HashSet<>(Config.blacklisted_nbt);
-        only_disable_interactions = new HashSet<>(Config.only_disable_interactions);
-        only_disable_attacks = new HashSet<>(Config.only_disable_attacks);
-        only_disable_recipes = new HashSet<>(Config.only_disable_recipes);
+        blacklisted_items = new HashSet<>(ItemObliterator.Config.blacklisted_items);
+        blacklisted_nbt = new HashSet<>(ItemObliterator.Config.blacklisted_nbt);
+        only_disable_interactions = new HashSet<>(ItemObliterator.Config.only_disable_interactions);
+        only_disable_attacks = new HashSet<>(ItemObliterator.Config.only_disable_attacks);
+        only_disable_recipes = new HashSet<>(ItemObliterator.Config.only_disable_recipes);
     }
 }
