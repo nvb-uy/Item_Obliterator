@@ -32,3 +32,10 @@ mandatory=true
 versionRange="${neo_version_range}"
 ordering="NONE"
 side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="necronomicon"
+mandatory=true
+versionRange="${necronomicon_version_range}"
+ordering="NONE"
+side="BOTH"
