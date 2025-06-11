@@ -2,18 +2,17 @@ package elocindev.item_obliterator.neoforge.utils;
 
 import elocindev.item_obliterator.neoforge.ItemObliterator;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.component.CustomData;
 
 public class Utils {
+
     public static String getItemId(Item item) {
-        ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
-        return id != null ? id.toString() : "unknown";
+        // BuiltinRegistries.ITEM is deprecated in newer versions, but still works for now. Will update later
+        return BuiltInRegistries.ITEM.getKey(item).toString();
     }
 
     public static boolean shouldRecipeBeDisabled(Item item) {
