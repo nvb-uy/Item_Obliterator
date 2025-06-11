@@ -1,4 +1,4 @@
-modLoader="neoforge"
+modLoader="javafml"
 loaderVersion="${loader_version_range}" # e.g. [4,)
 
 license="${mod_license}"
@@ -17,7 +17,7 @@ description='''${mod_description}'''
 # issueTrackerURL="https://github.com/yourrepo/issues"
 
 [[mixins]]
-config="mixins.${mod_id}.json"
+config="${mod_id}.mixins.json"
 
 [[dependencies.${mod_id}]]
 modId="minecraft"

@@ -1,17 +1,27 @@
-package elocindev.item_obliterator.neoforge.mixin; // Keeping original structure
+package elocindev.item_obliterator.neoforge.mixin;
 
 import elocindev.item_obliterator.neoforge.utils.Utils;
-import net.neoforged.neoforge.event.village.VillagerTradesEvent;
-import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.inventory.MerchantMenu;
+import net.minecraft.world.item.trading.MerchantOffers;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Mixin(value = MerchantMenu.class, priority = 10000)
 public class VillagerTradeMixin {
-    public static void register(net.neoforged.api.modding.v1.ModLoader modLoader) {
-        modLoader.getEnvironment().getEventBus().addListener(VillagerTradeMixin::onVillagerTrades);
-    }
+    @Inject(at = {@At("RETURN")}, method = "getOffers", cancellable = true)
+    public void getRecipes(CallbackInfoReturnable<MerchantOffers> info) {
+        if(info.getReturnValue() != null) {
 
-    private static void onVillagerTrades(VillagerTradesEvent event) {
-        event.getTrades().forEach((level, trades) -> {
-            trades.removeIf(offer -> Utils.isDisabled(offer.getResult()));
-        });
+            MerchantOffers Offers = new MerchantOffers();
+
+            info.getReturnValue().forEach(offer -> {
+                if(!Utils.isDisabled(offer.getResult()))
+                    Offers.add(offer);
+            });
+
+            info.setReturnValue(Offers);
+        }
     }
 }
