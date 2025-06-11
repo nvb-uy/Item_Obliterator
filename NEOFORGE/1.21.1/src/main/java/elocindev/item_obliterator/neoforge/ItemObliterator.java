@@ -1,17 +1,17 @@
 package elocindev.item_obliterator.neoforge;
 
 import com.mojang.logging.LogUtils;
-import elocindev.item_obliterator.neoforge.config.ConfigEntries; // 🔄 Changed to neoforge package
+import elocindev.item_obliterator.neoforge.config.ConfigEntries;
 import elocindev.item_obliterator.neoforge.utils.Utils;
 import elocindev.necronomicon.api.config.v1.NecConfigAPI;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-
-import net.neoforged.neoforge.event.lifecycle.FMLCommonSetupEvent;
-
-import net.neoforged.bus.api.EventBus;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
@@ -34,11 +34,8 @@ public class ItemObliterator {
     public static Set<String> only_disable_attacks;
     public static Set<String> only_disable_recipes;
 
-    public ItemObliterator() {
-        // NeoForge auto-registers @SubscribeEvent handlers on this class via mod constructor
-        EventBus modBus = net.neoforged.fml.ModLoadingContext.get().getModEventBus();
-        modBus.addListener(this::commonSetup);
-
+    public ItemObliterator(IEventBus modEventBus, ModContainer modContainer) {
+        modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this); // Replaces MinecraftForge.EVENT_BUS
     }
 

@@ -1,9 +1,8 @@
 plugins {
-    id 'java-library'
-    id 'eclipse'
     id 'idea'
+    id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '1.0.21'
+    id 'net.neoforged.moddev' version '2.0.78'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -26,19 +25,6 @@ repositories {
     mavenCentral()
     maven { url = "https://maven.neoforged.net/releases" }
 
-    // FTB official maven (replaces maven.saps.dev)
-    maven {
-        url = "https://maven.ftb.dev/releases"
-        content {
-            includeGroup "dev.ftb.mods"
-        }
-    }
-    maven {
-        url = "https://maven.ftb.dev/snapshots"
-        content {
-            includeGroup "dev.ftb.mods"
-        }
-    }
     // CurseForge maven (replaces curse.maven)
     maven {
         url = "https://cursemaven.com"
