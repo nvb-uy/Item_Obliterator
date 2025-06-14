@@ -37,7 +37,6 @@ public class ItemObliterator {
 
     public ItemObliterator(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
-
         NeoForge.EVENT_BUS.register(this);
 
         //modContainer.registerConfig(ModConfig.Type.COMMON, elocindev.item_obliterator.neoforge.config.ConfigHandler.SPEC);

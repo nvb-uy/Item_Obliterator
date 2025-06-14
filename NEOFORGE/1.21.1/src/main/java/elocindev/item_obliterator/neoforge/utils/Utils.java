@@ -1,11 +1,12 @@
 package elocindev.item_obliterator.neoforge.utils;
 
 import elocindev.item_obliterator.neoforge.ItemObliterator;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 
 public class Utils {
 
@@ -61,19 +62,21 @@ public class Utils {
     }
 
     public static boolean isDisabled(ItemStack stack) {
-        if (stack == null || stack.is(Items.AIR)) return false;
+        if (stack == null || stack.isEmpty() || stack.is(Items.AIR)) return false;
 
-        CompoundTag nbt = stack.getTag();
-        if (nbt != null) {
-            String nbtString = nbt.toString();
-            for (String blacklisted_nbt : ItemObliterator.Config.blacklisted_nbt) {
-                if (blacklisted_nbt == null || blacklisted_nbt.startsWith("//")) continue;
+        if (stack.has(DataComponents.CUSTOM_DATA)) {
+            CustomData tag = stack.get(DataComponents.CUSTOM_DATA);
+            if (tag != null) {
+                String nbtString = tag.toString();
+                for (String blacklisted_nbt : ItemObliterator.Config.blacklisted_nbt) {
+                    if (blacklisted_nbt == null || blacklisted_nbt.startsWith("//")) continue;
 
-                if (nbtString.contains(blacklisted_nbt)) return true;
+                    if (nbtString.contains(blacklisted_nbt)) return true;
 
-                if (blacklisted_nbt.startsWith("!")) {
-                    String regex = blacklisted_nbt.substring(1);
-                    if (nbtString.matches(regex)) return true;
+                    if (blacklisted_nbt.startsWith("!")) {
+                        String regex = blacklisted_nbt.substring(1);
+                        if (nbtString.matches(regex)) return true;
+                    }
                 }
             }
         }
