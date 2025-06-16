@@ -6,9 +6,9 @@
       "InteractionManagerMixin",
       "ItemGroupMixin",
       "ServerPlayerMixin",
-      "VillagerTradeMixin",
       "RecipeDisablingMixin",
-      "ItemEntityMixin"
+      "ItemEntityMixin",
+      "VillagerTradeMixin"
     ],
     "client": [
     ],

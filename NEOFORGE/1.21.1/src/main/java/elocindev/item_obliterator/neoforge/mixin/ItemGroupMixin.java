@@ -21,7 +21,7 @@ public abstract class ItemGroupMixin {
 
     @Inject(method = "buildContents", at = @At(value = "RETURN"))
     private void item_obliterator_buildContents(CreativeModeTab.ItemDisplayParameters displayContext, CallbackInfo ci) {
-        displayItems.removeIf(stack -> Utils.isDisabled(stack));
-        displayItemsSearchTab.removeIf(stack -> Utils.isDisabled(stack));
+        displayItems.removeIf(Utils::isDisabled);
+        displayItemsSearchTab.removeIf(Utils::isDisabled);
     }
 }

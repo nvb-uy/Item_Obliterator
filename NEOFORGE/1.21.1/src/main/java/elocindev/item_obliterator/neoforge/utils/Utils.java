@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.trading.MerchantOffer;
 
 public class Utils {
 
@@ -82,6 +83,22 @@ public class Utils {
         }
 
         return isDisabled(getItemId(stack.getItem()));
+    }
+
+    // Check if a MerchantOffer has blacklisted items in costs or results
+    public static boolean isDisabled(MerchantOffer offer) {
+        if (isDisabled(offer.getResult())) return true;
+        if (isDisabled(offer.getBaseCostA())) return true;
+        if (offer.getCostB() != null && isDisabled(offer.getCostB())) return true;
+        return false;
+    }
+
+    // Get a summary of the MerchantOffer for debugging purposes
+    public static String getOfferSummary(MerchantOffer offer) {
+        String resultId = getItemId(offer.getResult().getItem());
+        String buyAId = getItemId(offer.getBaseCostA().getItem());
+        String buyBId = offer.getCostB() != null ? getItemId(offer.getCostB().getItem()) : "none";
+        return "BuyA: " + buyAId + ", BuyB: " + buyBId + ", Result: " + resultId;
     }
 
     public static boolean isDisabledInteract(String itemid) {
