@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 
 import elocindev.item_obliterator.neoforge.config.ConfigEntries;
 import elocindev.item_obliterator.neoforge.event.VillagerTradeEvent;
+import elocindev.item_obliterator.neoforge.event.WandererTradeEvent;
 import elocindev.item_obliterator.neoforge.utils.Utils;
 import elocindev.necronomicon.api.config.v1.NecConfigAPI;
 import net.minecraft.world.entity.Entity;
@@ -41,6 +42,7 @@ public class ItemObliterator {
         NeoForge.EVENT_BUS.register(this);
 
         NeoForge.EVENT_BUS.register(VillagerTradeEvent.class);
+        NeoForge.EVENT_BUS.register(WandererTradeEvent.class);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
