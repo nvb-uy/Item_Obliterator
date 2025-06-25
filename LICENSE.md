@@ -1,8 +1,8 @@
 ### AGNYA License
 
-Copyright (C) 2023 nvb-uy (ElocinDev) 
+Copyright (C) 2025 Cinderstone Studios LLC
 
-All rights reserved unless explicitly stated. Rev 1.3
+All rights reserved unless explicitly stated. Rev 1.4
 
 
 You may get a full copy of this license at https://github.com/nvb-uy/AGNYA-License
@@ -118,9 +118,7 @@ project.
 6. Contribution
 
 
-All form of contribution on this project, let it be public or private, 
-will be under the Creative Commons 0 1.0 Universal (CC0 1.0) License.
-By contributing, you agree that you hold all copyright rights of the material you are contributing.
+All forms of contribution to this project, whether public or private, will transfer all rights, including copyright, to the author of the licensed work. By contributing, you agree that you hold all copyright rights to the material you are contributing, and you hereby assign and transfer all such rights to the author of this project.
 
 
 7. Disclaimer
